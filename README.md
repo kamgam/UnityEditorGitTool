@@ -27,7 +27,7 @@ Older versions of Unity (pre 2018.4) use the EditorPrefs ("kamgam.EditorGitTools
 ![Alt Settings < 2018.4](documentation/prefs.png?raw=true "Settings")
 
 ### Use at runtime
-Here is am exmaple of how to read the hash at runtime. Notice that the path depends on your settings. This example assues you are using the default path "Assets/Editor/GitToolSettings.asset".
+Here is an example of how to read the hash at runtime. Notice that the path depends on your settings. This example assumes you are using the default path "Assets/Editor/GitToolSettings.asset".
 ```csharp
 public static string _versionHash = null;
 public static string GetVersionHash()
