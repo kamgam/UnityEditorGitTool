@@ -8,7 +8,7 @@ A tool which automatically saves the git hash into a text asset before build. Us
 
 ## Usage
 
-At build time it will try to fetch the current hash from git and saves it in a text asset (default: "Assets/Resources/GitHash.asset").
+At build time it will try to fetch the current hash from git and save it in a text asset (default: "Assets/Resources/GitHash.asset").
 
 It can show a warning before the build if there are uncommited changes (enabled by default). This can be disabled in the settings.
 
@@ -27,7 +27,7 @@ Older versions of Unity (pre 2018.4) use the EditorPrefs ("kamgam.EditorGitTools
 ![Alt Settings < 2018.4](documentation/prefs.png?raw=true "Settings")
 
 ### Use at runtime
-Here is an example of how to read the hash at runtime. Notice that the path depends on your settings. This example assumes you are using the default path "Assets/Editor/GitToolSettings.asset".
+Here is an example of how to read the hash at runtime. Notice that the path depends on your settings. This example assumes you are using the default path "Assets/Resources/GitHash.asset".
 ```csharp
 public static string _versionHash = null;
 public static string GetVersionHash()
