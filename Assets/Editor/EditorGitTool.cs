@@ -137,7 +137,7 @@ namespace kamgam.editor.GitTool
 
             Debug.Log("GitTools: PreExport() - writing git hash into '" + gitHashFilePath + "'");
 
-            string gitHash = EditorTools.ExecAndReadFirstLine("git rev-parse --short HEAD");
+            string gitHash = ExecAndReadFirstLine("git rev-parse --short HEAD");
             if (gitHash == null)
             {
                 Debug.LogError("GitTools: not git hash found!");
@@ -161,7 +161,7 @@ namespace kamgam.editor.GitTool
         {
             Debug.Log("GitTools: CountChanges() - counts modified, new or simply unknown files in working tree.");
 
-            string statusResult = EditorTools.Exec("git status --porcelain");
+            string statusResult = Exec("git status --porcelain");
             if (statusResult == null)
             {
                 return 0;
@@ -184,6 +184,59 @@ namespace kamgam.editor.GitTool
             }
 
             return count + 1;
+        }
+		
+        public static string ExecAndReadFirstLine(string command, int maxWaitTimeInSec = 5)
+        {
+            string result = Exec(command, maxWaitTimeInSec);
+
+            // first line only
+            if (result != null)
+            {
+                int i = result.IndexOf("\n");
+                if (i > 0)
+                {
+                    result = result.Substring(0, i);
+                }
+            }
+
+            return result;
+        }
+
+        public static string Exec(string command, int maxWaitTimeInSec = 5)
+        {
+            try
+            {
+#if UNITY_EDITOR_WIN
+                string shellCmd = "cmd.exe";
+                string shellCmdArg = "/c";
+#elif UNITY_EDITOR_OSX
+			    string shellCmd = "bash";
+                string shellCmdArg = "-c";
+#endif
+
+                string cmdArguments = shellCmdArg + " \"" + command + "\"";
+                Debug.Log("GitTool.Exec: Attempting to execute command: " + (shellCmd + " " + cmdArguments));
+                var procStartInfo = new System.Diagnostics.ProcessStartInfo(shellCmd, cmdArguments);
+                procStartInfo.RedirectStandardOutput = true;
+                procStartInfo.UseShellExecute = false;
+                procStartInfo.CreateNoWindow = true;
+
+                // Debug.Log("GitTool.Exec: Running process...");
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo = procStartInfo;
+                proc.Start();
+                proc.WaitForExit(maxWaitTimeInSec * 1000);
+                string result = proc.StandardOutput.ReadToEnd();
+
+                Debug.Log("GitTool.Exec: done");
+                return result;
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("GitTool.Exec Error: " + e);
+                return null;
+            }
         }
     }
 
