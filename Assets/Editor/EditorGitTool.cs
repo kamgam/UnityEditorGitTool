@@ -226,8 +226,8 @@ namespace kamgam.editor.GitTool
                 System.Diagnostics.Process proc = new System.Diagnostics.Process();
                 proc.StartInfo = procStartInfo;
                 proc.Start();
+				string result = proc.StandardOutput.ReadToEnd();
                 proc.WaitForExit(maxWaitTimeInSec * 1000);
-                string result = proc.StandardOutput.ReadToEnd();
 
                 Debug.Log("GitTool.Exec: done");
                 return result;
