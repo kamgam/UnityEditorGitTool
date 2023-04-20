@@ -1,0 +1,19 @@
+{
+  "name": "com.kamgam.editor.gittool",
+  "version": "0.1.0",
+  "displayName": "KAMGAM UnityEditorGitTool",
+  "description": "Generate a text asset with git information at build.",
+  "unity": "2018.3",
+  "type": "library",
+  "author": {
+    "name": "KAMGAM",
+    "email": "office@kamgam.com",
+    "url": "https://kamgam.com"
+  },
+  "dependencies": { },
+  "license": "MIT",
+  "keywords": [
+    "unity",
+    "git"
+  ]
+}
