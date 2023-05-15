@@ -20,7 +20,7 @@ Find the `manifest.json` file in the `Packages` directory in your project and ed
 ```
 {
   "dependencies": {
-    "com.kamgam.editor.gitool": "https://github.com/kamgam/UnityEditorGitTool.git",
+    "com.kamgam.editor.gittool": "https://github.com/kamgam/UnityEditorGitTool.git",
     ...
   },
 }
