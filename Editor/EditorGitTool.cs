@@ -210,9 +210,12 @@ namespace kamgam.editor.GitTool
 #if UNITY_EDITOR_WIN
                 string shellCmd = "cmd.exe";
                 string shellCmdArg = "/c";
-#elif UNITY_EDITOR_OSX
-			    string shellCmd = "bash";
+#elif UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
+		string shellCmd = "bash";
                 string shellCmdArg = "-c";
+#else
+		string shellCmd = "";
+		string shellCmdArg = "";
 #endif
 
                 string cmdArguments = shellCmdArg + " \"" + command + "\"";
