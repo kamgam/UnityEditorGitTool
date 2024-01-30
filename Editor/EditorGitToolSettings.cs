@@ -9,9 +9,9 @@ namespace kamgam.editor.GitTool
 {
 #if UNITY_2018_4_OR_NEWER
     // Create a new type of Settings Asset.
-    class GitToolSettings : ScriptableObject
+    class EditorGitToolSettings : ScriptableObject
     {
-        public const string SettingsFilePath = "Assets/Editor/GitToolSettings.asset";
+        public const string SettingsFilePath = "Assets/Editor/EditorGitToolSettings.asset";
 
         [SerializeField]
         public string GitHashTextAssetPath;
@@ -19,12 +19,17 @@ namespace kamgam.editor.GitTool
         [SerializeField]
         public bool ShowWarning;
 
-        internal static GitToolSettings GetOrCreateSettings()
+        private static EditorGitToolSettings settings = null;
+
+        internal static EditorGitToolSettings GetOrCreateSettings()
         {
-            var settings = AssetDatabase.LoadAssetAtPath<GitToolSettings>(SettingsFilePath);
+            if (settings != null)
+                return settings;
+
+            settings = AssetDatabase.LoadAssetAtPath<EditorGitToolSettings>(SettingsFilePath);
             if (settings == null)
             {
-                settings = ScriptableObject.CreateInstance<GitToolSettings>();
+                settings = ScriptableObject.CreateInstance<EditorGitToolSettings>();
                 settings.GitHashTextAssetPath = EditorGitTool.DefaultGitHashFilePath;
                 settings.ShowWarning = true;
                 AssetDatabase.CreateAsset(settings, SettingsFilePath);
@@ -50,7 +55,7 @@ namespace kamgam.editor.GitTool
                 label = "Git Tool",
                 guiHandler = (searchContext) =>
                 {
-                    var settings = GitToolSettings.GetSerializedSettings();
+                    var settings = EditorGitToolSettings.GetSerializedSettings();
                     settings.Update();
 
                     // Fix for default toggle not being clickable in some Unity versions (TODO: investigate).

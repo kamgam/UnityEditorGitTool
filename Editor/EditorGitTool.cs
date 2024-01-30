@@ -59,7 +59,7 @@ namespace kamgam.editor.GitTool
             if(string.IsNullOrEmpty(gitHashFilePath))
             {
 #if UNITY_2018_4_OR_NEWER
-                gitHashFilePath = GitToolSettings.GetOrCreateSettings().GitHashTextAssetPath;
+                gitHashFilePath = EditorGitToolSettings.GetOrCreateSettings().GitHashTextAssetPath;
 #else
                 gitHashFilePath = GitHashFilePath;
 #endif
@@ -184,7 +184,7 @@ namespace kamgam.editor.GitTool
         {
             // show warning
 #if UNITY_2018_4_OR_NEWER
-            bool showWarning = GitToolSettings.GetOrCreateSettings().ShowWarning;
+            bool showWarning = EditorGitToolSettings.GetOrCreateSettings().ShowWarning;
 #else
             bool showWarning = EditorGitTool.ShowWarning;
 #endif
