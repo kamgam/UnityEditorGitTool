@@ -32,6 +32,9 @@ namespace kamgam.editor.GitTool
                 settings = ScriptableObject.CreateInstance<EditorGitToolSettings>();
                 settings.GitHashTextAssetPath = EditorGitTool.DefaultGitHashFilePath;
                 settings.ShowWarning = true;
+                // Check if a folder needs to be created
+                if (!AssetDatabase.IsValidFolder("Assets/Editor"))
+                    AssetDatabase.CreateFolder("Assets", "Editor");
                 AssetDatabase.CreateAsset(settings, SettingsFilePath);
                 AssetDatabase.SaveAssets();
             }

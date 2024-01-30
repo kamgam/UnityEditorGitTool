@@ -78,6 +78,9 @@ namespace kamgam.editor.GitTool
 
             AssetDatabase.DeleteAsset(gitHashFilePath);
             var text = new TextAsset(gitHash + postFix);
+            // Check if a folder needs to be created
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+                AssetDatabase.CreateFolder("Assets", "Resources");
             AssetDatabase.CreateAsset(text, gitHashFilePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
