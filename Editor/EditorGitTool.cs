@@ -203,7 +203,8 @@ namespace kamgam.editor.GitTool
                 );
                 if (continueWithoutCommit == false)
                 {
-                    throw new Exception("User canceled build because there are still uncommitted changes.");
+                    // In Unity 2018.4+ throwing a normal "Exception" in OnPreprocessBuild() will no longer stop the build, but throwing a "BuildFailedException" will. 
+                    throw new BuildFailedException("User canceled build because there are still uncommitted changes.");
                 }
             }
 
