@@ -59,7 +59,7 @@ namespace kamgam.editor.GitTool
             if(string.IsNullOrEmpty(gitHashFilePath))
             {
 #if UNITY_2018_4_OR_NEWER
-                gitHashFilePath = GitToolSettings.GetOrCreateSettings().GitHashTextAssetPath;
+                gitHashFilePath = EditorGitToolSettings.GetOrCreateSettings().GitHashTextAssetPath;
 #else
                 gitHashFilePath = GitHashFilePath;
 #endif
@@ -78,6 +78,9 @@ namespace kamgam.editor.GitTool
 
             AssetDatabase.DeleteAsset(gitHashFilePath);
             var text = new TextAsset(gitHash + postFix);
+            // Check if a folder needs to be created
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+                AssetDatabase.CreateFolder("Assets", "Resources");
             AssetDatabase.CreateAsset(text, gitHashFilePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -184,7 +187,7 @@ namespace kamgam.editor.GitTool
         {
             // show warning
 #if UNITY_2018_4_OR_NEWER
-            bool showWarning = GitToolSettings.GetOrCreateSettings().ShowWarning;
+            bool showWarning = EditorGitToolSettings.GetOrCreateSettings().ShowWarning;
 #else
             bool showWarning = EditorGitTool.ShowWarning;
 #endif
@@ -200,7 +203,8 @@ namespace kamgam.editor.GitTool
                 );
                 if (continueWithoutCommit == false)
                 {
-                    throw new Exception("User canceled build because there are still uncommitted changes.");
+                    // In Unity 2018.4+ throwing a normal "Exception" in OnPreprocessBuild() will no longer stop the build, but throwing a "BuildFailedException" will. 
+                    throw new BuildFailedException("User canceled build because there are still uncommitted changes.");
                 }
             }
 
